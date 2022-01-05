@@ -10,13 +10,13 @@ import hello.hellospring.service.MemberService;
 @Configuration
 public class SpringConfig {
 
-	@Bean
-	public MemberService memberService(){
-		return new MemberService(memberRepository());
-	}
-
-	@Bean
-	public MemberRepository memberRepository(){
-		return new MemoryMemberRepository();
-	}
+	// @Bean
+	// public MemberService memberService(){
+	// 	return new MemberService(memberRepository());
+	// }
+	//
+	// @Bean
+	// public MemberRepository memberRepository(){
+	// 	return new MemoryMemberRepository();
+	// }
 }
