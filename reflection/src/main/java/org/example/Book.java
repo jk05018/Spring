@@ -1,6 +1,6 @@
 package org.example;
 
-public class Book {
+public class Book extends AnnotationPractice{
 
 	private static String b = "Book";
 
