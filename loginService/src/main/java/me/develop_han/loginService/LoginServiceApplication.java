@@ -1,13 +1,13 @@
-package me.develop_han.springdi;
+package me.develop_han.loginService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringDiApplication {
+public class LoginServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringDiApplication.class, args);
+		SpringApplication.run(LoginServiceApplication.class, args);
 	}
 
 }

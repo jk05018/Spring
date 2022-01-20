@@ -1,10 +1,10 @@
-package me.develop_han.springdi;
+package me.develop_han.loginService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringDiApplicationTests {
+class LoginServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
