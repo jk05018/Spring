@@ -1,5 +1,7 @@
 package me.develop_han.loginService.filter;
 
+import static org.springframework.http.MediaType.*;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -72,7 +74,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("access_token", access_token);
 		tokens.put("refresh_token", refrest_token);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setContentType(APPLICATION_JSON_VALUE);
 		new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 	}
 
