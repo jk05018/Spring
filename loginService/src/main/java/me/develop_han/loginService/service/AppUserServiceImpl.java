@@ -1,7 +1,14 @@
 package me.develop_han.loginService.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +23,32 @@ import me.develop_han.loginService.repository.RoleRepository;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AppUserServiceImpl implements AppUserService{
+public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
 	private final AppUserRepository userRepository;
 	private final RoleRepository roleRepository;
 
 
 	@Override
-	public AppUser save(AppUser user) {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		AppUser user = userRepository.findByUsername(username);
+		if(user == null){
+			log.error("User not found int the database");
+			throw new UsernameNotFoundException("user not found in the database");
+		}else{
+			log.info("user found int the database : {}", username);
+		}
+
+		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		user.getRoles().forEach(role -> {
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		});
+		return new User(user.getUsername(),user.getPassword(),authorities);
+
+	}
+
+	@Override
+	public AppUser saveUser(AppUser user) {
 		log.info("Saving new user {} to the database",user.getUsername());
 		return userRepository.save(user);
 	}
@@ -53,4 +78,6 @@ public class AppUserServiceImpl implements AppUserService{
 		log.info("fetching users");
 		return userRepository.findAll();
 	}
+
+
 }

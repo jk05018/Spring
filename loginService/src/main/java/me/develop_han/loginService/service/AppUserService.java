@@ -6,7 +6,7 @@ import me.develop_han.loginService.domain.AppUser;
 import me.develop_han.loginService.domain.Role;
 
 public interface AppUserService {
-	AppUser save(AppUser user);
+	AppUser saveUser(AppUser user);
 	Role saveRole(Role role);
 	void addRoleToUser(String username, String roleName);
 	AppUser getUser(String username);
