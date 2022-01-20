@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
 	private final AppUserRepository userRepository;
 	private final RoleRepository roleRepository;
+	private final PasswordEncoder passwordEncoder;
 
 
 	@Override
@@ -50,6 +52,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 	@Override
 	public AppUser saveUser(AppUser user) {
 		log.info("Saving new user {} to the database",user.getUsername());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
