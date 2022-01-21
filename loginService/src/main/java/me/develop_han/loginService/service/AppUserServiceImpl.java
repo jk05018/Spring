@@ -38,7 +38,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 			log.error("User not found int the database");
 			throw new UsernameNotFoundException("user not found in the database");
 		}else{
-			log.info("user found int the database : {}", username);
+			log.info("user found in the database : {}", username);
 		}
 
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
