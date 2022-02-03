@@ -30,14 +30,13 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder passwordEncoder;
 
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		AppUser user = userRepository.findByUsername(username);
-		if(user == null){
+		if (user == null) {
 			log.error("User not found int the database");
 			throw new UsernameNotFoundException("user not found in the database");
-		}else{
+		} else {
 			log.info("user found in the database : {}", username);
 		}
 
@@ -45,26 +44,26 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 		user.getRoles().forEach(role -> {
 			authorities.add(new SimpleGrantedAuthority(role.getName()));
 		});
-		return new User(user.getUsername(),user.getPassword(),authorities);
+		return new User(user.getUsername(), user.getPassword(), authorities);
 
 	}
 
 	@Override
 	public AppUser saveUser(AppUser user) {
-		log.info("Saving new user {} to the database",user.getUsername());
+		log.info("Saving new user {} to the database", user.getUsername());
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
 	@Override
 	public Role saveRole(Role role) {
-		log.info("Saving new Role {} to the database",role.getName());
+		log.info("Saving new Role {} to the database", role.getName());
 		return roleRepository.save(role);
 	}
 
 	@Override
 	public void addRoleToUser(String username, String roleName) {
-		log.info("Adding role {} to the user {} ",roleName,username);
+		log.info("Adding role {} to the user {} ", roleName, username);
 		AppUser user = userRepository.findByUsername(username);
 		Role role = roleRepository.findByName(roleName);
 		user.getRoles().add(role);
@@ -81,6 +80,5 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 		log.info("fetching users");
 		return userRepository.findAll();
 	}
-
 
 }
