@@ -1,5 +1,7 @@
 package com.cos.security1.controller;
 
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,16 +31,19 @@ public class IndexController {
 		return "index";
 	}
 
+	@ResponseBody
 	@GetMapping("/user")
 	public String user() {
 		return "user";
 	}
 
+	@ResponseBody
 	@GetMapping("/admin")
 	public String admin() {
 		return "admin";
 	}
 
+	@ResponseBody
 	@GetMapping("/manager")
 	public String manager() {
 		return "manager";
@@ -63,5 +68,19 @@ public class IndexController {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user); // 이렇게 저장한다면 1234로 저장 -> 시큐리티로 로그인 할 수 없음 -> 이유는 패스워드가 암호화되어있기 문
 		return "redirect:/loginForm";
+	}
+
+	@Secured("ROLE_ADMIN")
+	@ResponseBody
+	@GetMapping("/info")
+	public String info(){
+		return "개인정보";
+	}
+
+	@PreAuthorize("hasole('ROLE_MANAGER")
+	@ResponseBody
+	@GetMapping("/data")
+	public String data(){
+		return "데이터 정보";
 	}
 }
