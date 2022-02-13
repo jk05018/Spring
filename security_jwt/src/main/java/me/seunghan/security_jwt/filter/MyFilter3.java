@@ -32,24 +32,26 @@ public class MyFilter3 implements Filter {
 		/*
 		토큰 : secret 이걸 만들어줘야함. id와 pw가 정상적으로 들어와서 로그인이 완료되면 토큰을 만들어주고 그걸 응답을 해준다.
 		요청할 때 마다 header에 Authorization에 value값으로 토큰을 가지고 오겠죠?
-		그때 토큰이 넘어오면 이 토큰이 내가 만든 토큰이 맞는지만 검증
+		그때 토큰이 넘어오면 이 토큰이 내가 만든 토큰이 맞는지만 검
 		 */
 
 
-		if (req.getMethod().equals("POST")) {
-			log.info("POST 요청");
-			String headerAuth = req.getHeader("Authorization");
-			log.info("Authorization : {}", headerAuth);
+		// if (req.getMethod().equals("POST")) {
+		// 	log.info("POST 요청");
+		// 	String headerAuth = req.getHeader("Authorization");
+		// 	log.info("Authorization : {}", headerAuth);
+		//
+		// 	// 만약 Authorization에 임시로 저장한 토큰이 넘어온다면
+		// 	if (headerAuth.equals("secret")) {
+		// 		chain.doFilter(req, res);
+		// 		// 계속 진행해!
+		// 	} else {
+		// 		// 아니면 멈춰
+		// 		PrintWriter out = res.getWriter();
+		// 		out.println("인증안됨");
+		// 	}
+		// }
 
-			// 만약 Authorization에 임시로 저장한 토큰이 넘어온다면
-			if (headerAuth.equals("secret")) {
-				chain.doFilter(req, res);
-				// 계속 진행해!
-			} else {
-				// 아니면 멈춰
-				PrintWriter out = res.getWriter();
-				out.println("인증안됨");
-			}
-		}
+		chain.doFilter(req,res);
 	}
 }
