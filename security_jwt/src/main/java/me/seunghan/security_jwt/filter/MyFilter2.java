@@ -20,4 +20,5 @@ public class MyFilter2 implements Filter {
 		log.info("filter2");
 		chain.doFilter(request, response);
 	}
+
 }
