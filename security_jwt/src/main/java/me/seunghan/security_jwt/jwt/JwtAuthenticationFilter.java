@@ -2,7 +2,10 @@ package me.seunghan.security_jwt.jwt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -52,24 +57,45 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				user.getUsername(), user.getPassword());
 
 			// 이게 실행될 때 PrincipalDetailsService의 loadUserByUsername() 함수가 실행됨
-			// 로그인이 서옥ㅇ하면 반환되는 autehntication에는 로그인에 대한 정보가 나옴
+			// DB에 있는 username과 Password가 일치한다.
 			Authentication authentication = authenticationManager.authenticate(token);
 
-			// authentication 객체가 session 영역에 저장됨 -> 로그인이 되었다는 뜻
+			// authentication 객체가 session 영역에 저장됨 -> 로그인이 되었다는 뜻 // JWT를 사용하지 않았다.
 			PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
-			log.info("{}",principalDetails.getUser().getUsername()); // 출력이 되었다면
+			log.info("{}", principalDetails.getUser().getUsername()); // 출력이 되었다면
 
+			//authentication 객체가 session 영역에 저장을  히야하고 그 방법이 authentication을 return 해주는 것?
+			// 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고 하는 것임
+			// 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 근데 단지 권한 처리때문에 session을 넣어준다.
+
+			//JWT 토큰을 만들어줌?
 			return authentication;
 		} catch (IOException e) {
 			e.printStackTrace();
-
-			// 2. 정상인지 로그인 시도를 해 보는 것이다. authenticationManager로 로그인 시도를 하면 PrincipalDetailsService가 호출이 된다.
-			// -> loadByUsername() 함수가 실행이 된다.
-
-			// 3. principalDetails를 세션에 담고 // 세션에 안담으면 권한관리를 안해줌?(권환관리를 위해서 세션에 담는다)
-
-			// 4. JWT 토큰을 만들어서 응답해 주면 됨
+			// UsernamePasswordAuthenticationFilter(attemptAuthentication())  -> manager(userdetailsService(loadUserbyUsername()))으로 유저 정보 호출 뒤
+			// 인증 후 Authentication 반환 -> successAuthentication() 실행
 			return null;
 		}
+
+	}
+
+	// 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행
+	// 여기에서 JWT 토큰을 만들어서 request 요청한 사용자에게 JWT 토큰을 response 해주면 됨
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+		Authentication authResult) throws IOException, ServletException {
+		log.info("successfulAuthentication() start : 인증 완료");
+		PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
+
+		//RSA 방식 X Hash암호방식? HMAC 방식
+		String jwtToken = JWT.create()
+			.withSubject(principalDetails.getUsername())
+			.withExpiresAt(new Date(System.currentTimeMillis() + (60000 * 10))) // 10분
+			.withClaim("id",principalDetails.getUser().getId())
+			.withClaim("username",principalDetails.getUser().getUsername())
+			.sign(Algorithm.HMAC512("secret"));
+
+		response.addHeader("Authorization","Bearer " + jwtToken);
+		// / success url로 넘어가지 않네?
 	}
 }

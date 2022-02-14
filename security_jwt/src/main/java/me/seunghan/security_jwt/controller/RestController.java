@@ -18,7 +18,7 @@ public class RestController {
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String home() {
 		return "<h1>HOME</h1>";
 	}
@@ -26,6 +26,24 @@ public class RestController {
 	@PostMapping("/token")
 	public String token() {
 		return "<h1>TOKEN</h1>";
+	}
+
+	// user,manager,admin 접근 가능
+	@GetMapping("/api/v1/user")
+	public String user(){
+		return "<h1>USER</h1>";
+	}
+
+	// manager, admin 접근 가능
+	@GetMapping("/api/v1/manager")
+	public String manager(){
+		return "<h1>Manager</h1>";
+	}
+
+
+	@GetMapping("/api/v1/admin")
+	public String admin(){
+		return "<h1>Admin</h1>";
 	}
 
 	@GetMapping("/admin/users")
