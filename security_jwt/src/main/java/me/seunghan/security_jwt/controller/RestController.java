@@ -30,19 +30,18 @@ public class RestController {
 
 	// user,manager,admin 접근 가능
 	@GetMapping("/api/v1/user")
-	public String user(){
+	public String user() {
 		return "<h1>USER</h1>";
 	}
 
 	// manager, admin 접근 가능
 	@GetMapping("/api/v1/manager")
-	public String manager(){
+	public String manager() {
 		return "<h1>Manager</h1>";
 	}
 
-
 	@GetMapping("/api/v1/admin")
-	public String admin(){
+	public String admin() {
 		return "<h1>Admin</h1>";
 	}
 

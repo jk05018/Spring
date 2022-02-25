@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().disable() // formLogin을 disable 해놨으므로 기본 loginProcessingUrl인 /login이 notfound 된다. 접근을 시도했을
 			.httpBasic().disable() // 기본적인 로그인 방식은 사용하지 않는다.
 			.addFilter(new JwtAuthenticationFilter(authenticationManager()))
-			.addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository))
+			.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 			// JWT즉 UsernamePassword에 달아줘야 할 파라미터가 있다 AuthenticationManager
 			// AUthenticationManager를 통해 로그인 시
 			// WebSecurityConfigurerAdapter가 authenticationManager 들고있음
