@@ -91,11 +91,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String jwtToken = JWT.create()
 			.withSubject(principalDetails.getUsername())
 			.withExpiresAt(new Date(System.currentTimeMillis() + (60000 * 10))) // 10분
-			.withClaim("id",principalDetails.getUser().getId())
-			.withClaim("username",principalDetails.getUser().getUsername())
+			.withClaim("id", principalDetails.getUser().getId())
+			.withClaim("username", principalDetails.getUser().getUsername())
 			.sign(Algorithm.HMAC512("secret"));
 
-		response.addHeader("Authorization","Bearer " + jwtToken);
+		response.addHeader("Authorization", "Bearer " + jwtToken);
 		// / success url로 넘어가지 않네?
 	}
 }
