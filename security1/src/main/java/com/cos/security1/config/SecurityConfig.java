@@ -10,12 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true) // secure Annotation 활성화 Methodintercepter, preAuthorize PostAuthorize Annotation 활성
+@EnableGlobalMethodSecurity(securedEnabled = true)
+// secure Annotation 활성화 Methodintercepter, preAuthorize PostAuthorize Annotation 활성
 @EnableWebSecurity(debug = true) // 스프링 시큐리티 필터가 스프링 필터 체인에 등록이 된다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -30,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and().formLogin()
 			.loginPage("/loginForm")
 			.loginProcessingUrl("/login") // /login 주소가 호출이 된다면 시큐리티가 낚아채서 대신 로그인을 진행해줌 -> Controller에 /login 만들지 않아도 됨
-		.defaultSuccessUrl("/")
+			.defaultSuccessUrl("/")
 		;
 
 	}

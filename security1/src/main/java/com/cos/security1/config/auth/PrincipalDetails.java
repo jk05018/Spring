@@ -18,9 +18,10 @@ import com.cos.security1.model.User;
 public class PrincipalDetails implements UserDetails {
 	private User user;
 
-	public PrincipalDetails(User user){
+	public PrincipalDetails(User user) {
 		this.user = user;
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collect = new ArrayList<>();

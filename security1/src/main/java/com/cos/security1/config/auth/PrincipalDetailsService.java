@@ -29,10 +29,10 @@ public class PrincipalDetailsService implements UserDetailsService {
 	//UserDetailsService returned null, which is an interface contract violation 발생
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("entered username : {}" , username);
+		log.info("entered username : {}", username);
 		//findBy 규칙 -> username 문법 JPA 공부하기
 		User userEntity = userRepository.findByUsername(username);
-		log.info("find user username : {}",userEntity.getUsername());
+		log.info("find user username : {}", userEntity.getUsername());
 		if (userEntity != null) {
 			return new PrincipalDetails(userEntity);
 		}
