@@ -63,7 +63,7 @@ public class IndexController {
 
 	@PostMapping("/join")
 	public String join(User user) {
-		log.info("User join start username : {}" , user.getUsername());
+		log.info("User join start username : {}", user.getUsername());
 		user.setRole("ROLE_USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user); // 이렇게 저장한다면 1234로 저장 -> 시큐리티로 로그인 할 수 없음 -> 이유는 패스워드가 암호화되어있기 문
@@ -73,14 +73,14 @@ public class IndexController {
 	@Secured("ROLE_ADMIN")
 	@ResponseBody
 	@GetMapping("/info")
-	public String info(){
+	public String info() {
 		return "개인정보";
 	}
 
 	@PreAuthorize("hasole('ROLE_MANAGER")
 	@ResponseBody
 	@GetMapping("/data")
-	public String data(){
+	public String data() {
 		return "데이터 정보";
 	}
 }
