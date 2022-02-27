@@ -10,7 +10,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class OrderItem {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(name = "order_item_id")
 	private Long id;
 

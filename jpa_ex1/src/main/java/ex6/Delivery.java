@@ -9,7 +9,8 @@ import javax.persistence.OneToOne;
 @Entity
 public class Delivery {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(name = "delivery_id")
 	private Long id;
 

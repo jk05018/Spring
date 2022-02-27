@@ -12,7 +12,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Member {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(name = "member_id")
 	private Long id;
 
@@ -23,6 +24,5 @@ public class Member {
 	private String city;
 	private String street;
 	private String zipcode;
-
 
 }

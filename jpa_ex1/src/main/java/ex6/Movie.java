@@ -1,6 +1,6 @@
 package ex6;
 
-public class Movie extends Item{
+public class Movie extends Item {
 
 	private String director;
 
