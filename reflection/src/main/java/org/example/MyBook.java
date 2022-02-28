@@ -1,4 +1,4 @@
 package org.example;
 
-public class MyBook extends Book implements MyInterface{
+public class MyBook extends Book implements MyInterface {
 }

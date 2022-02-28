@@ -27,11 +27,11 @@ public class App {
 		System.out.println("============================");
 		// 모든 필드와 값을 가져오기
 		Book book = new Book();
-		Arrays.stream(bookClass.getDeclaredFields()).forEach( f ->
+		Arrays.stream(bookClass.getDeclaredFields()).forEach(f ->
 		{
 			try {
 				f.setAccessible(true);
-				System.out.printf("%s %s\n",f,f.get(book));
+				System.out.printf("%s %s\n", f, f.get(book));
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}

@@ -1,6 +1,6 @@
 package org.example;
 
-public class Book extends AnnotationPractice{
+public class Book extends AnnotationPractice {
 
 	private static String b = "Book";
 
@@ -21,15 +21,15 @@ public class Book extends AnnotationPractice{
 		this.e = e;
 	}
 
-	private void f(){
+	private void f() {
 		System.out.println("F");
 	}
 
-	public void g(){
+	public void g() {
 		System.out.println("g");
 	}
 
-	public int h(){
+	public int h() {
 		return 100;
 	}
 }

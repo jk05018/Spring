@@ -9,7 +9,7 @@ public class Info {
 	public Info() {
 	}
 
-	public void c(){
+	public void c() {
 		System.out.println("C");
 	}
 
@@ -17,7 +17,7 @@ public class Info {
 		B = b;
 	}
 
-	public int d(int left, int right){
+	public int d(int left, int right) {
 		return left + right;
 	}
 }
