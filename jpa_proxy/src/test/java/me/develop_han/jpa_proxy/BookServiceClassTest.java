@@ -13,13 +13,14 @@ import net.sf.cglib.proxy.MethodProxy;
 class BookServiceClassTest {
 
 	@Test
-	public void di() throws Exception{
+	public void di() throws Exception {
 		MethodInterceptor handler = new MethodInterceptor() {
 			BookServiceClass bookService = new BookServiceClass();
+
 			@Override
 			public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws
 				Throwable {
-				if(method.getName().equals("rent")){
+				if (method.getName().equals("rent")) {
 					System.out.println("aaaaa");
 					Object invoke = method.invoke(bookService, objects);
 					System.out.println("bbbb");
