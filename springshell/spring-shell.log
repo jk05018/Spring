@@ -1,0 +1,34 @@
+1649767342912:help
+1649767371188:connect --username j --password p
+1649767384334:exit
+1649767622248:connect --username j --password p
+1649767638527:exit
+1649769620862:connect --username j --password k
+1649769629720:exit
+1649769707917:connect --username j --password k
+1649769715508:exit
+1649770149449:connect --username j --password k
+1649770175919:exit
+1649770226436:connect j k
+1649770243487:connect --username j --password p
+1649770245595:exit
+1649770278190:connect --username j --password p
+1649810726749:connect j k
+1649810758908:connect --username j -password k
+1649810924945:exit
+1649810938368:add 1 2
+1649810985431:add
+1649810992551:exit
+1649811079608:add 1 2
+1649811087017:exit
+1649811302368:add 1 2
+1649811309347:connect j k
+1649813330718:directory --person (#1)\\ s
+1649813342750:connect j k
+1649813345879:help
+1649813369732:disconnect
+1649813376170:exit
+1649815236426:connect j k
+1649815241626:help
+1649815748729:connect seunghan 1234
+1649815759804:connect seunghan 1
