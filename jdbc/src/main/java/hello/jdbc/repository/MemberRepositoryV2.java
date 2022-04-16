@@ -17,15 +17,15 @@ import org.springframework.stereotype.Repository;
 import hello.jdbc.domain.Member;
 
 /**
- * JDBC - DriverManager 사용
+ * JDBC - ConnectionParam
  */
 @Repository
-public class MemberRepositoryV1 {
+public class MemberRepositoryV2 {
 	private static final Logger log = LoggerFactory.getLogger(MemberRepositoryV2.class);
 
 	private final DataSource dataSource;
 
-	public MemberRepositoryV1(DataSource dataSource) {
+	public MemberRepositoryV2(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
@@ -91,6 +91,37 @@ public class MemberRepositoryV1 {
 		}
 	}
 
+	public Member findById(Connection connection, String memberId) throws SQLException {
+		// 김영한 강사님처럼 이런 방법도 있겠지만 try catch문으로 알아서 닫아주도록 하는 방법도 있다.
+		// 일일히 DriverManager에서 Connection을 얻어와서 쿼리를 날리는 방법 -> 외부 Resource 매우 낭비 -> Connection Pool 개념 등
+		String search_query = "SELECT * FROM member WHERE member_id = ?";
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+			preparedStatement = connection.prepareStatement(search_query);
+			preparedStatement.setString(1, memberId);
+
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return new Member(resultSet.getString("member_id"), resultSet.getInt("money"));
+			} else {
+				throw new NoSuchElementException(
+					MessageFormat.format("member not found memberId = {0}", memberId));
+			}
+
+		} catch (SQLException e) {
+			log.error("DB error", e);
+			throw e; // 왜 Exception을 그냥 SQL Exception으로 throw했을까
+		} finally {
+			// connection은 여기서 닫지 않는다.
+			JdbcUtils.closeResultSet(resultSet);
+			JdbcUtils.closeStatement(preparedStatement);
+			// JdbcUtils.closeConnection(connection); // connection param을 ㅗ넘겨 받을 때 connection을 닫으면 안됨 -> Tranraction 유지하고 있는 중이므
+		}
+	}
+
 	public void update(String memberId, int money) throws SQLException {
 		String update_query = "UPDATE member SET money = ? WHERE member_id = ?";
 
@@ -116,6 +147,33 @@ public class MemberRepositoryV1 {
 		} finally {
 			// 만약 final에서 예외가 터진다면 예외가 밖으로까지 나감 -> try-catchansdmfh cjflgownjdigka
 			close(connection, preparedStatement, null);
+		}
+	}
+
+	public void update(Connection connection, String memberId, int money) throws SQLException {
+		String update_query = "UPDATE member SET money = ? WHERE member_id = ?";
+
+		PreparedStatement preparedStatement = null;
+
+		try {
+			preparedStatement = connection.prepareStatement(update_query);
+			preparedStatement.setInt(1, money);
+			preparedStatement.setString(2, memberId);
+
+			final int updated = preparedStatement.executeUpdate();
+
+			if (updated != 1) {
+				throw new RuntimeException(
+					MessageFormat.format("Member가 update되지 않았습니다. member_id : {0}", memberId));
+			}
+
+		} catch (SQLException e) {
+			log.error("DB error", e);
+			throw e; // 왜 Exception을 그냥 SQL Exception으로 throw했을까
+		} finally {
+			// connection은 여기서 닫지 않는다.
+			JdbcUtils.closeStatement(preparedStatement);
+			// JdbcUtils.closeConnection(connection); // connection param을 ㅗ넘겨 받을 때 connection을 닫으면 안됨 -> Tranraction 유지하고 있는 중이므
 		}
 	}
 

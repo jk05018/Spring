@@ -8,16 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import hello.jdbc.connection.ConnectionConst;
 import hello.jdbc.domain.Member;
 
 class MemberRepositoryV1Test {
