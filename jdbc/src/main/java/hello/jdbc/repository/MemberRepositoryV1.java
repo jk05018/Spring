@@ -7,19 +7,26 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 
-import javax.xml.transform.Result;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.support.JdbcUtils;
 
 import hello.jdbc.connection.DbConnectionUtil;
 import hello.jdbc.domain.Member;
 
 /**
- * JDBC - DataSource 사용, JdbcUtils 사
+ * JDBC - DriverManager 사용
  */
-public class MemberRepositoryV0 {
-	private static final Logger log = LoggerFactory.getLogger(MemberRepositoryV0.class);
+public class MemberRepositoryV1 {
+	private static final Logger log = LoggerFactory.getLogger(MemberRepositoryV1.class);
+
+	private final DataSource dataSource;
+
+	public MemberRepositoryV1(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
 
 	public Member save(Member member) throws SQLException {
 		// 김영한 강사님처럼 이런 방법도 있겠지만 try catch문으로 알아서 닫아주도록 하는 방법도 있다.
@@ -132,32 +139,15 @@ public class MemberRepositoryV0 {
 	}
 
 	private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-		if (resultSet != null) {
-			try {
-				resultSet.close();
-			} catch (SQLException exception) {
-				log.error("got error at closing resultSet");
-			}
-		}
-
-		if (preparedStatement != null) {
-			try {
-				preparedStatement.close();
-			} catch (SQLException exception) {
-				log.error("got error at closing preparedStatement");
-			}
-		}
-
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException exception) {
-				log.error("got error at closing connection");
-			}
-		}
+		// close 부분을 일일히 작성하지 않고 Utils를 써도 된다.
+		JdbcUtils.closeResultSet(resultSet);
+		JdbcUtils.closeStatement(preparedStatement);
+		JdbcUtils.closeConnection(connection);
 	}
 
-	private Connection getConnection() {
-		return DbConnectionUtil.getConnection();
+	private Connection getConnection() throws SQLException {
+		final Connection connection = dataSource.getConnection();
+		log.info("get Connection {} , class {}" , connection, connection.getClass());
+		return connection;
 	}
 }

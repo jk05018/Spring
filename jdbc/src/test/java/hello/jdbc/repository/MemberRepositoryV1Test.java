@@ -1,20 +1,40 @@
 package hello.jdbc.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.Matchers.*;
+import static hello.jdbc.connection.ConnectionConst.*;
 import static org.hamcrest.MatcherAssert.*;
-
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-import org.junit.jupiter.api.Test;
+import javax.sql.DataSource;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+import hello.jdbc.connection.ConnectionConst;
 import hello.jdbc.domain.Member;
 
-class MemberRepositoryV0Test {
+class MemberRepositoryV1Test {
 
-	MemberRepositoryV0 repository = new MemberRepositoryV0();
+	MemberRepositoryV1 repository;
+
+	@BeforeEach
+	void beforeEach() {
+		// final DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource(URL, username, password);
+
+		final HikariDataSource dataSource = new HikariDataSource();
+		dataSource.setJdbcUrl(URL);
+		dataSource.setUsername(username);
+		dataSource.setPassword(password);
+
+		repository = new MemberRepositoryV1(dataSource);
+	}
 
 	@Test
 	void crud() throws SQLException {
