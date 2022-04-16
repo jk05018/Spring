@@ -22,7 +22,6 @@ import hello.jdbc.domain.Member;
  * DataSourceUtil.getConnection()
  * DataSourceUtils.releaseConnection()
  */
-@Repository
 public class MemberRepositoryV3 {
 	private static final Logger log = LoggerFactory.getLogger(MemberRepositoryV3.class);
 

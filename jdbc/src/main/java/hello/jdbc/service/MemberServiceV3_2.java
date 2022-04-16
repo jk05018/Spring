@@ -21,7 +21,6 @@ import hello.jdbc.repository.MemberRepositoryV3;
 public class MemberServiceV3_2 {
 	private static final Logger log = LoggerFactory.getLogger(MemberServiceV3_2.class);
 
-
 	// private final PlatformTransactionManager transactionManager;
 	private final TransactionTemplate txTemplate;
 	private final MemberRepositoryV3 memberRepository;
@@ -38,24 +37,12 @@ public class MemberServiceV3_2 {
 	public void accountTransfer(String fromId, String toId, int money) throws SQLException {
 		txTemplate.executeWithoutResult((status) -> {
 			try {
-				bizLogic(fromId,toId,money);
+				bizLogic(fromId, toId, money);
 			} catch (SQLException exception) {
 				throw new IllegalStateException(exception);
 			}
 		});
 
-	}
-
-	private void release(Connection connection) {
-		if (connection != null) {
-			try {
-				// autocommit은 다시 복구되지 않음 여기서 복구시켜줘야함
-				connection.setAutoCommit(true);
-				connection.close();
-			} catch (Exception e) {
-				log.info("error", e);
-			}
-		}
 	}
 
 	private void bizLogic(String fromId, String toId, int money) throws SQLException {

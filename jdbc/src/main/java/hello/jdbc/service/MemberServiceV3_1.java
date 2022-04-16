@@ -47,18 +47,6 @@ public class MemberServiceV3_1 {
 
 	}
 
-	private void release(Connection connection) {
-		if (connection != null) {
-			try {
-				// autocommit은 다시 복구되지 않음 여기서 복구시켜줘야함
-				connection.setAutoCommit(true);
-				connection.close();
-			} catch (Exception e) {
-				log.info("error", e);
-			}
-		}
-	}
-
 	private void bizLogic(String fromId, String toId, int money) throws SQLException {
 		final Member fromMember = memberRepository.findById(fromId);
 		final Member toMember = memberRepository.findById(toId);
