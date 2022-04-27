@@ -137,6 +137,8 @@ public class BasicController {
 
 		return "basic/javascript";
 	}
+
+
 	private void addUsers(Model model){
 		List<User> list = new ArrayList<>();
 		list.add(new User("userA",10));
@@ -145,7 +147,6 @@ public class BasicController {
 
 		model.addAttribute("users", list);
 	}
-
 	@Data
 	static class User {
 		private String username;
