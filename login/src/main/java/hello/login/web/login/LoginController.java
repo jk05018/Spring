@@ -1,5 +1,7 @@
 package hello.login.web.login;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import hello.login.domain.login.LoginService;
 import hello.login.domain.member.Member;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +28,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult) {
+	public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
 
 		if(bindingResult.hasErrors()){
 			return "login/loginForm";
@@ -42,8 +43,25 @@ public class LoginController {
 			return "login/loginForm";
 		}
 
+		// login 처리 TODO
+		// 여기서 쿠키를 만들어서 전달 해 줄것이다.
+		final Cookie idCookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+		response.addCookie(idCookie);
+
 		return "redirect:/";
 	}
 
+	@PostMapping("/logout")
+	public String logout(HttpServletResponse response){
+		expireCookie(response, "memberId");
+
+		return "redirect:/";
+	}
+
+	private void expireCookie(HttpServletResponse response, String cookieName) {
+		final Cookie cookie = new Cookie(cookieName, null);
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	}
 
 }
