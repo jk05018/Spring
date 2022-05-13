@@ -32,7 +32,7 @@ public class Member {
 	private int age;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_id", referencedColumnName = "id")
+	@JoinColumn(name = "team_id", referencedColumnName = "team_id")
 	private Team team;
 
 	public Member(String username) {
