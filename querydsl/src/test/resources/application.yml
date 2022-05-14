@@ -1,6 +1,7 @@
+
 spring:
   profiles:
-    active: local
+    active: test
   datasource:
     url: jdbc:h2:tcp://localhost/~/querydsl
     username: sa
@@ -15,9 +16,10 @@ spring:
         format_sql: true
         use_sql_comments: true
 
-
-
 logging:
   level:
     org.hibernate.sql: debug
+
+
+
 
