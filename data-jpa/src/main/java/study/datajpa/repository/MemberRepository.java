@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
 
 import study.datajpa.entity.Member;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
 	List<Member> findByUsernameAndAgeGreaterThan(String username, int age);
 
@@ -21,6 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	List<Member> findUser(@Param("username") String username, @Param("age") int age);
 
 	List<Member> findListByUsername(String username);
+
 	Member findMemberByUsername(String username);
 
 	Page<Member> findByAge(int age, Pageable pageable);

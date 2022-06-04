@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id","name"})
+@ToString(of = {"id", "name"})
 public class Team {
 
 	@Id
@@ -31,7 +31,7 @@ public class Team {
 	@OneToMany(mappedBy = "team")
 	private List<Member> members = new ArrayList<>();
 
-	public Team(String name){
+	public Team(String name) {
 		this.name = name;
 	}
 }

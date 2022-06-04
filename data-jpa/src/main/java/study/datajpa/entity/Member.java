@@ -18,7 +18,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id","username","age"})
+@ToString(of = {"id", "username", "age"})
 public class Member {
 
 	@Id
@@ -50,7 +50,7 @@ public class Member {
 		}
 	}
 
-	public void changeTeam(Team team){
+	public void changeTeam(Team team) {
 		this.team = team;
 		team.getMembers().add(this);
 	}
